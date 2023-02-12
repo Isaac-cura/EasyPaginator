@@ -91,4 +91,22 @@ describe("Test suite for easy paginator class", () => {
         })
         expect(paginator.nextPage).not.toBeDefined()
     })
+
+    it("Prev page has value when paginator can fetch prev page", () => {
+        const paginator = new EasyPaginator({
+            offset: 90,
+            limit: 10,
+            count: 100
+        })
+        expect(paginator.prevPage).toBe(paginator.page -1)
+    })
+
+    it("Prev page its undefined when paginator cant fetch prev page", () => {
+        const paginator = new EasyPaginator({
+            offset: 5,
+            limit: 10,
+            count: 100
+        })
+        expect(paginator.prevPage).not.toBeDefined()
+    })
 })

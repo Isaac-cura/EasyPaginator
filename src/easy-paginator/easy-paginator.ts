@@ -41,6 +41,13 @@ export class EasyPaginator {
             : undefined
     }
 
+    get prevPage() {
+        const possiblePrev = this.page - 1;
+        return possiblePrev > 1
+            ? possiblePrev
+            : undefined
+    }
+
     getPage({ offset, limit, count }) {
         const lastPage = this.getLastPage(count, limit)
         const unFixedPage = this.getUnfixedPage(offset, limit)
