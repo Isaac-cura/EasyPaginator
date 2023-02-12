@@ -67,12 +67,19 @@ export class EasyPaginator {
     }
 
     buildNext() {
-        const newOffset = typeof this.nextPage !== "undefined"
-        ? this.nextPage 
-        : this.page
+        return this.buildTo(this.page + 1)
+    }
+
+    buildPrev() {
+        return this.buildTo(this.page - 1)
+    }
+
+    buildTo(page: number){
+        const fixedPage = this.getFixedPage(page, this.lastPage)
+        const offset = this.getOffsetOf(fixedPage, this.limit)
         return new EasyPaginator({
             ...this.dataSource,
-            offset: this.getOffsetOf(newOffset, this.limit)
+            offset
         })
     }
 

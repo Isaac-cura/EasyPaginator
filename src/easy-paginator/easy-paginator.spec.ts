@@ -229,4 +229,40 @@ describe("Test suite for easy paginator class", () => {
         expect(paginator.buildNext().page).toBe(41)
     })
 
+    it("buildPrev return a instance of EasyPaginator", () => {
+        const paginator = new EasyPaginator({
+            offset: 400,
+            limit: 10,
+            count: 1000
+        })
+        expect(paginator.buildPrev()).toBeInstanceOf(EasyPaginator)
+    })
+
+    it("buildPrev return a diferent instance of EasyPaginator", () => {
+        const paginator = new EasyPaginator({
+            offset: 400,
+            limit: 10,
+            count: 1000
+        })
+        expect(paginator.buildPrev()).not.toBe(paginator)
+    })
+
+    it("buildPrev return instance with the right page positon", () => {
+        const paginator = new EasyPaginator({
+            offset: 400,
+            limit: 10,
+            count: 1000
+        })
+        expect(paginator.buildPrev().page).toBe(40)
+    })
+
+    it("buildPrev return instance with the same page position when can go to prev page", () => {
+        const paginator = new EasyPaginator({
+            offset: 0,
+            limit: 10,
+            count: 410
+        })
+        expect(paginator.buildPrev().page).toBe(1)
+    })
+
 })
