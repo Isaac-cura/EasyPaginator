@@ -5,6 +5,7 @@ export class EasyPaginator {
     private _count: number;
     private _lastPage: number;
     private _segmentLength?: number;
+    elements = []
 
     constructor(private dataSource: PaginatorDataSource = {}) {
         dataSource = Object.assign(defaultPaginatorConfig(), dataSource)
@@ -93,15 +94,13 @@ export class EasyPaginator {
         return this.getFixedPage(unFixedPage, lastPage);
     }
 
-
-
     private getUnfixedPage(offset: number, limit: number) {
         const firstItemShown = offset + 1;
         return Math.ceil(firstItemShown / limit)
     }
 
     private getLastPage(count: number, limit) {
-        return Math.ceil(count / limit)
+        return Math.max(1, Math.ceil(count / limit)) 
     }
 
     private pageIsInHighLimit(page, lastPage) {

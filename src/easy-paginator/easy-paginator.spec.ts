@@ -265,4 +265,9 @@ describe("Test suite for easy paginator class", () => {
         expect(paginator.buildPrev().page).toBe(1)
     })
 
+    it("min page number must be 1", () => {
+        const paginator = new EasyPaginator()
+        expect(paginator.lastPage).toBe(1)
+    })
+
 })
