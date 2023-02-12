@@ -28,10 +28,6 @@ describe("Test suite for easy paginator class", () => {
         }).page).toBe(5)
     })
 
-    it("Offset its defined", () => {
-        expect(new EasyPaginator().offset).toBeDefined()
-    })
-
     it("Offset coincide with the provided value", () => {
         expect(new EasyPaginator({
             offset: 30,
@@ -60,5 +56,39 @@ describe("Test suite for easy paginator class", () => {
             limit: 5,
             count: 96
         }).offset).toBe(50)
+    })
+
+    it("Limit was exposed coincide with provided value", () => {
+        expect(new EasyPaginator({
+            offset: 10,
+            limit: 20,
+            count: 100
+        }).limit).toBe(20)
+    })
+
+    it("Count was exposed and coincide with provided value", () => {
+        expect(new EasyPaginator({
+            offset: 10,
+            limit: 20,
+            count: 100
+        }).count).toBe(100)
+    })
+
+    it("Next page has value when paginator can be fetch new page", () => {
+        const paginator = new EasyPaginator({
+            offset: 10,
+            limit: 10,
+            count: 100           
+        })
+        expect(paginator.nextPage).toBe(paginator.page + 1)
+    })
+
+    it("Next page its undefined when paginator cant be fetch new page", () => {
+        const paginator = new EasyPaginator({
+            offset: 90,
+            limit: 10,
+            count: 100
+        })
+        expect(paginator.nextPage).not.toBeDefined()
     })
 })

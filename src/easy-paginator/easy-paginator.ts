@@ -1,30 +1,56 @@
 export class EasyPaginator {
-    page = 1;
-    offset: number;
-    limit: number;
-    count: number;
-    lastPage: number;
+    private _page;
+    private _offset: number;
+    private _limit: number;
+    private _count: number;
+    private _lastPage: number;
 
     constructor(dataSource: PaginatorDataSource = {}) {
+        dataSource = Object.assign(defaultPaginatorConfig(), dataSource)
         this.init(dataSource)
     }
 
     private init(dataSource) {
-        dataSource = Object.assign(defaultPaginatorConfig(), dataSource)
         const { limit, count } = dataSource
-        this.lastPage = this.getLastPage(count, limit)
-        this.page = this.getPage(dataSource)
-        this.offset = this.getOffsetOf(this.page, limit)
+        this._lastPage = this.getLastPage(count, limit)
+        this._page = this.getPage(dataSource)
+        this._offset = this.getOffsetOf(this.page, limit)
+        this._limit = limit
+        this._count = count
     }
 
-    getPage({offset, limit, count}) {
+    get page() {
+        return this._page;
+    }
+    get offset() {
+        return this._offset
+    }
+    get limit() {
+        return this._limit
+    }
+    get count() {
+        return this._count
+    }
+    get lastPage() {
+        return this._lastPage
+    }
+    get nextPage() {
+        const possibleNext = this.page + 1;
+        return possibleNext < this.lastPage
+            ? possibleNext
+            : undefined
+    }
+
+    getPage({ offset, limit, count }) {
         const lastPage = this.getLastPage(count, limit)
         const unFixedPage = this.getUnfixedPage(offset, limit)
         return this.getFixedPage(unFixedPage, lastPage);
     }
 
+
+
     private getUnfixedPage(offset: number, limit: number) {
-        const firstItemShown = offset + 1;      
+        const firstItemShown = offset + 1;
         return Math.ceil(firstItemShown / limit)
     }
 
@@ -36,10 +62,10 @@ export class EasyPaginator {
         return page <= lastPage
     }
 
-    private getFixedPage(page, lastPage) {        
-        if(!this.pageIsInHighLimit(page, lastPage)) {
+    private getFixedPage(page, lastPage) {
+        if (!this.pageIsInHighLimit(page, lastPage)) {
             return lastPage;
-        } else if(page <= 1) {
+        } else if (page <= 1) {
             return 1;
         }
         return page;
