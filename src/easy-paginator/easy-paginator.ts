@@ -48,6 +48,13 @@ export class EasyPaginator {
             : undefined
     }
 
+    get result() {
+        const remainedItems = this.count - this.offset
+        return remainedItems > this.limit
+            ? this.limit
+            : remainedItems
+    }
+
     getPage({ offset, limit, count }) {
         const lastPage = this.getLastPage(count, limit)
         const unFixedPage = this.getUnfixedPage(offset, limit)
@@ -95,6 +102,6 @@ export interface PaginatorDataSource {
     offset?: number,
     limit?: number,
     count?: number,
-    pagesToShow?: number
+    segmentLength?: number
 
 }

@@ -109,4 +109,22 @@ describe("Test suite for easy paginator class", () => {
         })
         expect(paginator.prevPage).not.toBeDefined()
     })
+
+    it("Results its the max number of items that can be shown", () => {
+        const paginator = new EasyPaginator({
+            offset: 10,
+            limit: 10,
+            count: 100
+        })
+        expect(paginator.result).toBe(paginator.limit)
+    })
+
+    it("Results return max number of items that can be shown when the remain items are less tan limit", () => {
+        const paginator = new EasyPaginator({
+            offset: 90,
+            limit: 10,
+            count: 93
+        })
+        expect(paginator.result).toBe(3)
+    })
 })
