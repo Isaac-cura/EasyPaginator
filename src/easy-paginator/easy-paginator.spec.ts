@@ -127,4 +127,53 @@ describe("Test suite for easy paginator class", () => {
         })
         expect(paginator.result).toBe(3)
     })
+
+    it("The first segment limit its 1 when the page is 1", () => {
+        const paginator = new EasyPaginator({
+            offset: 0,
+            limit: 10,
+            count: 100,
+            segmentLength: 7
+        })
+        expect(paginator.firstSegmentLimit).toBe(1)
+    })
+
+    it("The first segment limit shows the right number", () => {
+        expect(new EasyPaginator({
+            offset: 50,
+            limit: 10,
+            count: 100,
+            segmentLength: 7
+        }).firstSegmentLimit).toBe(3)
+         //4 5 6 7 8 9 10
+        expect(new EasyPaginator({
+            offset: 80,
+            limit: 10,
+            count: 100,
+            segmentLength: 7
+        }).firstSegmentLimit).toBe(4)
+
+        expect(new EasyPaginator({
+            offset: 30,
+            limit: 10,
+            count: 100,
+            segmentLength: 4
+        }).firstSegmentLimit).toBe(3)
+
+        expect(new EasyPaginator({
+            offset: 40,
+            limit: 10,
+            count: 100,
+            segmentLength: 6
+        }).firstSegmentLimit).toBe(3)
+    })
+    
+    it("the last segment limit show segmentLength when the page is 1", () =>{
+        expect(new EasyPaginator({
+            offset: 0,
+            limit: 10,
+            count: 100,
+            segmentLength: 6
+        }).lastSegmentLimit).toBe(6)
+    })
 })

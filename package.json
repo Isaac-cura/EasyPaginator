@@ -2,7 +2,7 @@
   "name": "easy-paginator",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "tsc -p tsconfig.build.json --watch --module commonjs",
     "build": "tsc -p tsconfig.build.json --module commonjs",
