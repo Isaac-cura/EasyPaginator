@@ -5,7 +5,7 @@ export class EasyPaginator {
     private _count: number;
     private _lastPage: number;
     private _segmentLength?: number;
-    elements = []
+    private _elements = []
 
     constructor(private dataSource: PaginatorDataSource = {}) {
         dataSource = Object.assign(defaultPaginatorConfig(), dataSource)
@@ -20,8 +20,12 @@ export class EasyPaginator {
         this._limit = limit;
         this._count = count;
         this._segmentLength = segmentLength || Infinity;
+        this.setElements();
     }
 
+    get elements() {
+        return this._elements;
+    }
     get page() {
         return this._page;
     }
@@ -65,6 +69,25 @@ export class EasyPaginator {
     get lastSegmentLimit() {
         const leftLimitOffset = Math.min(0, this.page - this.ceilHalfSegmentLength)
         return Math.min(this.lastPage, this.page + this.floorHalfSegmentLength - leftLimitOffset)
+    }
+
+    private setElements() {
+        if(this.firstSegmentLimit !== 1) {
+            this._elements.push("<<")
+        }
+        if(this.page !== 1) {
+            this._elements.push("<")
+        }
+        for(let i = this.firstSegmentLimit; i <= this.lastSegmentLimit; i++) {
+            this._elements.push(i.toString())
+        }
+        if(this.page !== this.lastPage) {
+            this._elements.push(">")
+        }
+
+        if(this.lastSegmentLimit !== this.lastPage) {
+            this._elements.push(">>")
+        }
     }
 
     buildNext() {

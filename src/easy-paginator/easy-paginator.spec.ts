@@ -270,4 +270,34 @@ describe("Test suite for easy paginator class", () => {
         expect(paginator.lastPage).toBe(1)
     })
 
+    it("Elements has been created successfully", () => {
+        const paginator = new EasyPaginator({
+            offset: 0,
+            limit: 10,
+            count: 100,
+            segmentLength: 5
+        })
+        expect(paginator.elements).toStrictEqual([
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            ">",
+            ">>"
+        ])
+
+        expect(paginator.buildTo(5).elements).toStrictEqual([
+            "<<",
+            "<",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            ">",
+            ">>"
+        ])
+    })
+
 })
