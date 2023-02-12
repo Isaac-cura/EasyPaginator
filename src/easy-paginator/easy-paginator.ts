@@ -18,7 +18,7 @@ export class EasyPaginator {
         this._offset = this.getOffsetOf(this.page, limit);
         this._limit = limit;
         this._count = count;
-        this._segmentLength = segmentLength;
+        this._segmentLength = segmentLength || Infinity;
     }
 
     get page() {

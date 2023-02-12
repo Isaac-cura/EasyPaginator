@@ -176,4 +176,20 @@ describe("Test suite for easy paginator class", () => {
             segmentLength: 6
         }).lastSegmentLimit).toBe(6)
     })
+
+    it("Show first limit to 1 when no segment length provided", () => {
+        expect(new EasyPaginator({
+            offset: 400,
+            limit: 10,
+            count: 1000,
+        }).firstSegmentLimit).toBe(1)
+    })
+
+    it("Show last page int last limit when no segment length provided ", () => {
+        expect(new EasyPaginator({
+            offset: 400,
+            limit: 10,
+            count: 1000,
+        }).lastSegmentLimit).toBe(100)
+    })
 })
