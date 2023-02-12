@@ -1,0 +1,30 @@
+import { EasyPaginator } from "./easy-paginator"
+
+describe("Test suite for easy paginator class", () => {
+    it("class be instanciated", () => {
+        expect(new EasyPaginator()).toBeInstanceOf(EasyPaginator)
+    })
+
+    it("Page must be 1 if the items count its equal or less to limit", () => {
+        expect(new EasyPaginator({
+            count: 3,
+            limit: 5
+        }).page).toBe(1)
+    })
+
+    it("Page value depends on offset and limit", () => {
+        expect(new EasyPaginator({
+            count: 100,
+            limit: 10,
+            offset: 10
+        }).page).toBe(2)
+    })
+
+    it("Page can be greater than total pages", () => {
+        expect(new EasyPaginator({
+            count: 50,
+            limit: 10,
+            offset: 60
+        }).page).toBe(5)
+    })
+})
