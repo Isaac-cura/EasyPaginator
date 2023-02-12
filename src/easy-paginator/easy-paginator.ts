@@ -14,6 +14,7 @@ export class EasyPaginator {
         const { limit, count } = dataSource
         this.lastPage = this.getLastPage(count, limit)
         this.page = this.getPage(dataSource)
+        this.offset = this.getOffsetOf(this.page, limit)
     }
 
     getPage({offset, limit, count}) {
@@ -44,6 +45,9 @@ export class EasyPaginator {
         return page;
     }
 
+    private getOffsetOf(page, limit) {
+        return (page - 1) * limit;
+    }
 }
 
 function defaultPaginatorConfig(): PaginatorDataSource {

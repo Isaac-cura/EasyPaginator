@@ -27,4 +27,38 @@ describe("Test suite for easy paginator class", () => {
             offset: 60
         }).page).toBe(5)
     })
+
+    it("Offset its defined", () => {
+        expect(new EasyPaginator().offset).toBeDefined()
+    })
+
+    it("Offset coincide with the provided value", () => {
+        expect(new EasyPaginator({
+            offset: 30,
+            limit: 10,
+            count: 90
+        }).offset).toBe(30)
+    })
+
+    it("Offset its fixed when invalid values was provided", () => {
+        expect(new EasyPaginator({
+          offset: 100,
+          limit: 10,
+          count: 93  
+        }).offset).toBe(90)
+    })
+
+    it("Offset fixed when the provided offset its not multipe of limit", () => {
+        expect(new EasyPaginator({
+            offset: 54,
+            limit: 10,
+            count: 93
+        }).offset).toBe(50)
+
+        expect(new EasyPaginator({
+            offset: 54,
+            limit: 5,
+            count: 96
+        }).offset).toBe(50)
+    })
 })
