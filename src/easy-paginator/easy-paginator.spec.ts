@@ -38,9 +38,9 @@ describe("Test suite for easy paginator class", () => {
 
     it("Offset its fixed when invalid values was provided", () => {
         expect(new EasyPaginator({
-          offset: 100,
-          limit: 10,
-          count: 93  
+            offset: 100,
+            limit: 10,
+            count: 93
         }).offset).toBe(90)
     })
 
@@ -78,7 +78,7 @@ describe("Test suite for easy paginator class", () => {
         const paginator = new EasyPaginator({
             offset: 10,
             limit: 10,
-            count: 100           
+            count: 100
         })
         expect(paginator.nextPage).toBe(paginator.page + 1)
     })
@@ -98,7 +98,7 @@ describe("Test suite for easy paginator class", () => {
             limit: 10,
             count: 100
         })
-        expect(paginator.prevPage).toBe(paginator.page -1)
+        expect(paginator.prevPage).toBe(paginator.page - 1)
     })
 
     it("Prev page its undefined when paginator cant fetch prev page", () => {
@@ -145,7 +145,7 @@ describe("Test suite for easy paginator class", () => {
             count: 100,
             segmentLength: 7
         }).firstSegmentLimit).toBe(3)
-         //4 5 6 7 8 9 10
+        //4 5 6 7 8 9 10
         expect(new EasyPaginator({
             offset: 80,
             limit: 10,
@@ -167,8 +167,8 @@ describe("Test suite for easy paginator class", () => {
             segmentLength: 6
         }).firstSegmentLimit).toBe(3)
     })
-    
-    it("the last segment limit show segmentLength when the page is 1", () =>{
+
+    it("the last segment limit show segmentLength when the page is 1", () => {
         expect(new EasyPaginator({
             offset: 0,
             limit: 10,
@@ -277,26 +277,29 @@ describe("Test suite for easy paginator class", () => {
             count: 100,
             segmentLength: 5
         })
-        expect(paginator.elements).toStrictEqual([
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            ">",
-            ">>"
+
+        expect(paginator.elements).toEqual([
+            { text: "<<", enabled: false },
+            { text: "<", enabled: false },
+            { text: "1", enabled: true, active: true},
+            { text: "2", enabled: true, active: false},
+            { text: "3", enabled: true, active: false},
+            { text: "4", enabled: true, active: false},
+            { text: "5", enabled: true, active: false},
+            { text: ">", enabled: true },
+            { text: ">>", enabled: true }
         ])
 
-        expect(paginator.buildTo(5).elements).toStrictEqual([
-            "<<",
-            "<",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            ">",
-            ">>"
+        expect(paginator.buildTo(9).elements).toEqual([
+            { text: "<<", enabled: true },
+            { text: "<", enabled: true },
+            { text: "6", enabled: true, active: false},
+            { text: "7", enabled: true, active: false},
+            { text: "8", enabled: true, active: false},
+            { text: "9", enabled: true, active: true},
+            { text: "10", enabled: true, active: false},
+            { text: ">", enabled: true },
+            { text: ">>", enabled: false }
         ])
     })
 

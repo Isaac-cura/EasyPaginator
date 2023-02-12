@@ -5,7 +5,7 @@ export class EasyPaginator {
     private _count: number;
     private _lastPage: number;
     private _segmentLength?: number;
-    private _elements = []
+    private _elements: Element[] = []
 
     constructor(private dataSource: PaginatorDataSource = {}) {
         dataSource = Object.assign(defaultPaginatorConfig(), dataSource)
@@ -72,22 +72,30 @@ export class EasyPaginator {
     }
 
     private setElements() {
-        if(this.firstSegmentLimit !== 1) {
-            this._elements.push("<<")
-        }
-        if(this.page !== 1) {
-            this._elements.push("<")
-        }
+        this.elements.push({
+            text: "<<",
+            enabled: this.firstSegmentLimit !== 1
+        })
+        this.elements.push({
+            text: "<", 
+            enabled: this.page !== 1
+        })
         for(let i = this.firstSegmentLimit; i <= this.lastSegmentLimit; i++) {
-            this._elements.push(i.toString())
+            this._elements.push({
+                text: i.toString(),
+                enabled: true,
+                active: this.page == i
+            })
         }
-        if(this.page !== this.lastPage) {
-            this._elements.push(">")
-        }
+        this.elements.push({
+            text: ">",
+            enabled: this.page !== this.lastPage
+        })
 
-        if(this.lastSegmentLimit !== this.lastPage) {
-            this._elements.push(">>")
-        }
+        this.elements.push({
+            text: ">>",
+            enabled: this.lastSegmentLimit !== this.lastPage
+        })
     }
 
     buildNext() {
@@ -162,4 +170,10 @@ export interface PaginatorDataSource {
     count?: number,
     segmentLength?: number
 
+}
+
+export interface Element {
+    text: string,
+    enabled: boolean,
+    active?: boolean 
 }
