@@ -360,26 +360,26 @@ describe("Test suite for easy paginator class", () => {
         expect(largerPaginator.page).toBe(4)
     })
 
-    it("Dirty page property its equal to page property when the page its right", () => {
+    it("expected page property its equal to page property when the page its right", () => {
         const paginator = new EasyPaginator({
             offset: 40,
             limit: 10,
             count: 60
         })
-        expect(paginator.dirtyPage).toBe(paginator.page)
+        expect(paginator.expectedPage).toBe(paginator.page)
     })
 
-    it("Dirty page its different to page when te provided offset its larger than a page", () => {
+    it("expected page its different to page when te provided offset its larger than a page", () => {
         const paginator = new EasyPaginator({
             offset: 40,
             limit: 10,
             count: 30
         })
-        expect(paginator.dirtyPage).not.toBe(paginator.page)
-        expect(paginator.dirtyPage).toBe(5)
+        expect(paginator.expectedPage).not.toBe(paginator.page)
+        expect(paginator.expectedPage).toBe(5)
     })
 
-    it("With count returns values for a previous valid pages, not for dirty pages", () => {
+    it("With count returns values for a previous valid pages, not for expected pages", () => {
         const paginator = new EasyPaginator({
             offset: 40,
             limit: 10,
@@ -389,14 +389,25 @@ describe("Test suite for easy paginator class", () => {
         expect(paginator.withCount(50).page).toBe(3)
     })
 
-    it("With dirty count returns values for a valid pages considering the new count", () => {
+    it("Expected with count returns values for a valid pages considering the new count", () => {
         const paginator = new EasyPaginator({
             offset: 40,
             limit: 10,
             count: 30
         })
         expect(paginator.page).toBe(3)
-        expect(paginator.withDirtyCount(50).page).toBe(5)
+        expect(paginator.expectedWithCount(50).page).toBe(5)
+    })
+
+    it("expected with count still fix the page when the new offset its wrong", () => {
+        const paginator = new EasyPaginator({
+            offset: 40,
+            limit: 10,
+            count: 10
+        })
+        expect(paginator.page).toBe(1)
+        expect(paginator.expectedWithCount(30).page).toBe(3)
+        expect(paginator.expectedWithCount(30).expectedPage).toBe(5)
     })
 
 })

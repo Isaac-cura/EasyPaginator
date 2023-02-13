@@ -11,7 +11,7 @@ export class EasyPaginator {
     results: number
     firstSegmentLimit: number;
     lastSegmentLimit: number;
-    dirtyPage: number;
+    expectedPage: number;
 
     constructor(private dataSource: PaginatorDataSource = {}) {
         dataSource = Object.assign(defaultPaginatorConfig(), dataSource)
@@ -22,7 +22,7 @@ export class EasyPaginator {
         const { offset, limit, count, segmentLength } = dataSource;
         this.lastPage = this.getLastPage(count, limit);
         this.page = this.getPage(dataSource);
-        this.dirtyPage = this.getDirtyPage(offset, limit);
+        this.expectedPage = this.getExpectedPage(offset, limit);
         this.offset = this.getOffsetOf(this.page, limit);
         this.limit = limit;
         this.count = count;
@@ -73,7 +73,7 @@ export class EasyPaginator {
         });
     }
 
-    withDirtyCount(count: number) {
+    expectedWithCount(count: number) {
         return new EasyPaginator({
             ...this.dataSource,
             count
@@ -137,7 +137,7 @@ export class EasyPaginator {
         return Math.ceil(this.segmentLength / 2)
     }
 
-    private getDirtyPage(offset: number, limit: number) {
+    private getExpectedPage(offset: number, limit: number) {
         return Math.max(1, this.getUnfixedPage(offset, limit))
     }
 
