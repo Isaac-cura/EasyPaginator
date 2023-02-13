@@ -303,4 +303,12 @@ describe("Test suite for easy paginator class", () => {
         ])
     })
 
+    it("paginator has prev page when the page is the page two", () => {
+        expect(new EasyPaginator({offset: 10, limit: 10, count: 30}).prevPage).toBe(1)
+    })
+
+    it("Paginator show the last page in the next when only one page is missing", () => {
+        expect(new EasyPaginator({offset: 10, limit: 10, count: 30}).nextPage).toBe(3)
+    })
+
 })
