@@ -17,6 +17,7 @@ EasyPaginator is a package that aims to abstract the internal logic and state of
 
 ## ⌨️ Get started
 Install
+
     npm install EasyPaginator
 
 import and use
@@ -53,6 +54,11 @@ Get the next page
 
     paginator.page
 
+### Get the expected page
+When the offset its greater than the count of elements EasyPaginator cut it to fit into the limits, but in certain cases we need to know the expected page if the count were bigger
+
+    paginator.expectedPage
+
 ### Get the next page
 Returns the next page number if possible, or undefined if not.
 
@@ -85,6 +91,7 @@ the structure of the elements its
 
     [{
         text: string // the text of button can be '<' '<<' '1', '2' ... 'Infinity', '>' '>>'
+        target: number // the page to navigate
         enabled: boolean // show what buttons are enabled for this page, used mostly for the arrows
         active: boolean // if the page its the active page
     }]
@@ -97,6 +104,34 @@ the structure of the elements its
     const paginatorForPrevPage = paginator.buildPrev()
     const paginatorForPage5 = paginator.buildTo(5)
 
+### Set new count
+We may need to increase the count of items, we can use this method, we need to be aware that new instance will be created instead of altering the existing one, 
+
+    paginator.withCount(50) // return a new instance with the new offset
+all previous validations of offset still remain, offset 50 with count 30 returns page 3, if we add more count with the method withCount(100) for example the page still will be 3
+
+    let paginator = new EasyPaginator({offset: 50, limit: 10, count: 30})
+	paginator.page === 3 // true
+	paginator.lastPage ===  3 // true
+
+	paginator = paginator.withCount(100)
+	paginator.page === 3 // true due the limit constraints were applied before
+	paginator.lastPage === 10 // true due the new count
+	  
+### Set new count without taking into account previous validations
+If we want to attempt to go to expected page and we want try it with new count we must use
+
+    let paginator = new EasyPaginator({offset: 50, limit: 10, count: 30})
+	paginator.page === 3 // true
+	paginator.lastPage ===  3 // true
+
+	paginator = paginator.expectedWithCount(100)
+	paginator.page === 6 // true due the limit constraints were recalculated against datasource whe we call the method
+	paginator.lastPage === 10 // true due the new count
+
+
+ 
+
 ### Raw data
 We can access to raw data provided for the EasyPaginator instance
 
@@ -104,10 +139,8 @@ We can access to raw data provided for the EasyPaginator instance
     paginator.limit
     paginator.count
     paginator.segmentLimit
-
-## Demo
-You can see an example in this codepen that use the pokeapi
-[codepen](https://codepen.io/Isaac-cura/pen/vYzBgRz?editors=0010)
-
+  ## Demo
+  You can see an example in this codepen that use the pokeapi
+  [codepen](https://codepen.io/Isaac-cura/pen/vYzBgRz?editors=0010)
 ## License
 EasyPaginator is [MIT Licensed](https://github.com/Isaac-cura/EasyPaginator/blob/master/LICENSE.md)
