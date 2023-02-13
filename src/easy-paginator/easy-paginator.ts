@@ -55,7 +55,7 @@ export class EasyPaginator {
             : undefined
     }
 
-    get result() {
+    get results() {
         const remainedItems = this.count - this.offset
         return remainedItems > this.limit
             ? this.limit

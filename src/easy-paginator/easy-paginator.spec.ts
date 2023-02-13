@@ -116,7 +116,7 @@ describe("Test suite for easy paginator class", () => {
             limit: 10,
             count: 100
         })
-        expect(paginator.result).toBe(paginator.limit)
+        expect(paginator.results).toBe(paginator.limit)
     })
 
     it("Results return max number of items that can be shown when the remain items are less tan limit", () => {
@@ -125,7 +125,7 @@ describe("Test suite for easy paginator class", () => {
             limit: 10,
             count: 93
         })
-        expect(paginator.result).toBe(3)
+        expect(paginator.results).toBe(3)
     })
 
     it("The first segment limit its 1 when the page is 1", () => {
