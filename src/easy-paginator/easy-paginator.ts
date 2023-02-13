@@ -68,9 +68,16 @@ export class EasyPaginator {
 
     withCount(count: number) {
         return new EasyPaginator({
-            ...this.dataSource,
+            ...this,
             count
         });
+    }
+
+    withDirtyCount(count: number) {
+        return new EasyPaginator({
+            ...this.dataSource,
+            count
+        })
     }
 
     private setElements() {
@@ -117,7 +124,7 @@ export class EasyPaginator {
         const fixedPage = this.getFixedPage(page, this.lastPage)
         const offset = this.getOffsetOf(fixedPage, this.limit)
         return new EasyPaginator({
-            ...this.dataSource,
+            ...this,
             offset
         })
     }

@@ -379,4 +379,24 @@ describe("Test suite for easy paginator class", () => {
         expect(paginator.dirtyPage).toBe(5)
     })
 
+    it("With count returns values for a previous valid pages, not for dirty pages", () => {
+        const paginator = new EasyPaginator({
+            offset: 40,
+            limit: 10,
+            count: 30
+        })
+        expect(paginator.page).toBe(3)
+        expect(paginator.withCount(50).page).toBe(3)
+    })
+
+    it("With dirty count returns values for a valid pages considering the new count", () => {
+        const paginator = new EasyPaginator({
+            offset: 40,
+            limit: 10,
+            count: 30
+        })
+        expect(paginator.page).toBe(3)
+        expect(paginator.withDirtyCount(50).page).toBe(5)
+    })
+
 })
