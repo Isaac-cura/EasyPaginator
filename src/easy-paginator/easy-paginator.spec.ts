@@ -360,4 +360,23 @@ describe("Test suite for easy paginator class", () => {
         expect(largerPaginator.page).toBe(4)
     })
 
+    it("Dirty page property its equal to page property when the page its right", () => {
+        const paginator = new EasyPaginator({
+            offset: 40,
+            limit: 10,
+            count: 60
+        })
+        expect(paginator.dirtyPage).toBe(paginator.page)
+    })
+
+    it("Dirty page its different to page when te provided offset its larger than a page", () => {
+        const paginator = new EasyPaginator({
+            offset: 40,
+            limit: 10,
+            count: 30
+        })
+        expect(paginator.dirtyPage).not.toBe(paginator.page)
+        expect(paginator.dirtyPage).toBe(5)
+    })
+
 })
