@@ -17,6 +17,7 @@ EasyPaginator is a package that aims to abstract the internal logic and state of
 
 ## ⌨️ Get started
 Install
+    npm install EasyPaginator
 
 import and use
 
@@ -103,6 +104,10 @@ We can access to raw data provided for the EasyPaginator instance
     paginator.limit
     paginator.count
     paginator.segmentLimit
+
+## Demo
+You can see an example in this codepen that use the pokeapi
+[codepen](https://codepen.io/Isaac-cura/pen/vYzBgRz?editors=0010)
 
 ## License
 EasyPaginator is [MIT Licensed](https://github.com/Isaac-cura/EasyPaginator/blob/master/LICENSE.md)
