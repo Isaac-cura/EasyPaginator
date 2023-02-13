@@ -1,1 +1,1 @@
-function main() {}
+export * from './easy-paginator/easy-paginator'

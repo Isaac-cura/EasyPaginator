@@ -3,17 +3,20 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "dev": "tsc -p tsconfig.build.json --watch --module commonjs",
     "build": "tsc -p tsconfig.build.json --module commonjs",
     "test": "jest ./src --watch"
   },
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "José I",
+    "github": "demonjso"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^29.4.0",
