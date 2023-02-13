@@ -43,7 +43,7 @@ export class EasyPaginator {
     }
     get nextPage() {
         const possibleNext = this.page + 1;
-        return possibleNext < this.lastPage
+        return possibleNext <= this.lastPage
             ? possibleNext
             : undefined
     }
@@ -74,26 +74,31 @@ export class EasyPaginator {
     private setElements() {
         this.elements.push({
             text: "<<",
+            target: 1,
             enabled: this.firstSegmentLimit !== 1
         })
         this.elements.push({
             text: "<", 
+            target: this.prevPage,
             enabled: this.page !== 1
         })
         for(let i = this.firstSegmentLimit; i <= this.lastSegmentLimit; i++) {
             this._elements.push({
                 text: i.toString(),
                 enabled: true,
+                target: i,
                 active: this.page == i
             })
         }
         this.elements.push({
             text: ">",
+            target: this.nextPage,
             enabled: this.page !== this.lastPage
         })
 
         this.elements.push({
             text: ">>",
+            target: this.lastPage,
             enabled: this.lastSegmentLimit !== this.lastPage
         })
     }
@@ -175,5 +180,6 @@ export interface PaginatorDataSource {
 export interface Element {
     text: string,
     enabled: boolean,
-    active?: boolean 
+    active?: boolean,
+    target?: number 
 }

@@ -279,27 +279,27 @@ describe("Test suite for easy paginator class", () => {
         })
 
         expect(paginator.elements).toEqual([
-            { text: "<<", enabled: false },
-            { text: "<", enabled: false },
-            { text: "1", enabled: true, active: true},
-            { text: "2", enabled: true, active: false},
-            { text: "3", enabled: true, active: false},
-            { text: "4", enabled: true, active: false},
-            { text: "5", enabled: true, active: false},
-            { text: ">", enabled: true },
-            { text: ">>", enabled: true }
+            { text: "<<", enabled: false, target: 1 },
+            { text: "<", enabled: false, target: undefined },
+            { text: "1", enabled: true, active: true, target: 1},
+            { text: "2", enabled: true, active: false, target: 2},
+            { text: "3", enabled: true, active: false, target: 3},
+            { text: "4", enabled: true, active: false, target: 4},
+            { text: "5", enabled: true, active: false, target: 5},
+            { text: ">", enabled: true, target: 2 },
+            { text: ">>", enabled: true, target: 10}
         ])
-
+        console.log(paginator.buildTo(9).offset)
         expect(paginator.buildTo(9).elements).toEqual([
-            { text: "<<", enabled: true },
-            { text: "<", enabled: true },
-            { text: "6", enabled: true, active: false},
-            { text: "7", enabled: true, active: false},
-            { text: "8", enabled: true, active: false},
-            { text: "9", enabled: true, active: true},
-            { text: "10", enabled: true, active: false},
-            { text: ">", enabled: true },
-            { text: ">>", enabled: false }
+            { text: "<<", enabled: true, target: 1 },
+            { text: "<", enabled: true, target: 8 },
+            { text: "6", enabled: true, active: false, target: 6},
+            { text: "7", enabled: true, active: false, target: 7},
+            { text: "8", enabled: true, active: false, target: 8},
+            { text: "9", enabled: true, active: true, target: 9},
+            { text: "10", enabled: true, active: false, target: 10},
+            { text: ">", enabled: true , target: 10},
+            { text: ">>", enabled: false, target: 10 }
         ])
     })
 
