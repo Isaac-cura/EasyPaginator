@@ -4,6 +4,10 @@
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Isaac-cura/EasyPaginator"
+  },  
   "scripts": {
     "dev": "tsc -p tsconfig.build.json --watch --module commonjs",
     "build": "tsc -p tsconfig.build.json --module commonjs",
