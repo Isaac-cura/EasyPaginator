@@ -1,11 +1,16 @@
 export class EasyPaginator {
-    private _page;
-    private _offset: number;
-    private _limit: number;
-    private _count: number;
-    private _lastPage: number;
-    private _segmentLength?: number;
-    private _elements: Element[] = []
+    page;
+    offset: number;
+    limit: number;
+    count: number;
+    lastPage: number;
+    segmentLength: number;
+    elements: Element[] = []
+    nextPage: number
+    prevPage: number
+    results: number
+    firstSegmentLimit: number;
+    lastSegmentLimit: number;
 
     constructor(private dataSource: PaginatorDataSource = {}) {
         dataSource = Object.assign(defaultPaginatorConfig(), dataSource)
@@ -14,65 +19,49 @@ export class EasyPaginator {
 
     private init(dataSource) {
         const { limit, count, segmentLength } = dataSource;
-        this._lastPage = this.getLastPage(count, limit);
-        this._page = this.getPage(dataSource);
-        this._offset = this.getOffsetOf(this.page, limit);
-        this._limit = limit;
-        this._count = count;
-        this._segmentLength = segmentLength || Infinity;
+        this.lastPage = this.getLastPage(count, limit);
+        this.page = this.getPage(dataSource);
+        this.offset = this.getOffsetOf(this.page, limit);
+        this.limit = limit;
+        this.count = count;
+        this.segmentLength = segmentLength || Infinity;
+        this.nextPage = this.getNextPage()
+        this.prevPage = this.getPrevPage()
+        this.results = this.getResults()
+        this.lastSegmentLimit = this.getLastSegmentLimit()
+        this.firstSegmentLimit = this.getFirstSegmentLimit()
         this.setElements();
     }
 
-    get elements() {
-        return this._elements;
-    }
-    get page() {
-        return this._page;
-    }
-    get offset() {
-        return this._offset
-    }
-    get limit() {
-        return this._limit
-    }
-    get count() {
-        return this._count
-    }
-    get lastPage() {
-        return this._lastPage
-    }
-    get nextPage() {
+
+    getNextPage() {
         const possibleNext = this.page + 1;
         return possibleNext <= this.lastPage
             ? possibleNext
             : undefined
     }
 
-    get prevPage() {
+    getPrevPage() {
         const possiblePrev = this.page - 1;
         return possiblePrev >= 1
             ? possiblePrev
             : undefined
     }
 
-    get results() {
+    getResults() {
         const remainedItems = this.count - this.offset
         return remainedItems > this.limit
             ? this.limit
             : remainedItems
     }
 
-    get firstSegmentLimit() {
-        return Math.max(1, 1 + this.lastSegmentLimit - this._segmentLength) 
+    getFirstSegmentLimit() {
+        return Math.max(1, 1 + this.lastSegmentLimit - this.segmentLength)
     }
 
-    get lastSegmentLimit() {
+    getLastSegmentLimit() {
         const leftLimitOffset = Math.min(0, this.page - this.ceilHalfSegmentLength)
         return Math.min(this.lastPage, this.page + this.floorHalfSegmentLength - leftLimitOffset)
-    }
-
-    get segmentLength() {
-        return this._segmentLength;
     }
 
     private setElements() {
@@ -82,12 +71,12 @@ export class EasyPaginator {
             enabled: this.firstSegmentLimit !== 1
         })
         this.elements.push({
-            text: "<", 
+            text: "<",
             target: this.prevPage,
             enabled: this.page !== 1
         })
-        for(let i = this.firstSegmentLimit; i <= this.lastSegmentLimit; i++) {
-            this._elements.push({
+        for (let i = this.firstSegmentLimit; i <= this.lastSegmentLimit; i++) {
+            this.elements.push({
                 text: i.toString(),
                 enabled: true,
                 target: i,
@@ -115,7 +104,7 @@ export class EasyPaginator {
         return this.buildTo(this.page - 1)
     }
 
-    buildTo(page: number){
+    buildTo(page: number) {
         const fixedPage = this.getFixedPage(page, this.lastPage)
         const offset = this.getOffsetOf(fixedPage, this.limit)
         return new EasyPaginator({
@@ -125,11 +114,11 @@ export class EasyPaginator {
     }
 
     private get floorHalfSegmentLength() {
-        return Math.floor(this._segmentLength / 2)
+        return Math.floor(this.segmentLength / 2)
     }
 
     private get ceilHalfSegmentLength() {
-        return Math.ceil(this._segmentLength / 2)
+        return Math.ceil(this.segmentLength / 2)
     }
 
     private getPage({ offset, limit, count }) {
@@ -144,7 +133,7 @@ export class EasyPaginator {
     }
 
     private getLastPage(count: number, limit) {
-        return Math.max(1, Math.ceil(count / limit)) 
+        return Math.max(1, Math.ceil(count / limit))
     }
 
     private pageIsInHighLimit(page, lastPage) {
@@ -185,5 +174,5 @@ export interface Element {
     text: string,
     enabled: boolean,
     active?: boolean,
-    target?: number 
+    target?: number
 }

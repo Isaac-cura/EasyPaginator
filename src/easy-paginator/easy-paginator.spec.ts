@@ -277,7 +277,7 @@ describe("Test suite for easy paginator class", () => {
             count: 100,
             segmentLength: 5
         })
-
+        
         expect(paginator.elements).toEqual([
             { text: "<<", enabled: false, target: 1 },
             { text: "<", enabled: false, target: undefined },
