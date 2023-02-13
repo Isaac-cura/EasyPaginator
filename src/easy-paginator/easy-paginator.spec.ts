@@ -277,38 +277,87 @@ describe("Test suite for easy paginator class", () => {
             count: 100,
             segmentLength: 5
         })
-        
+
         expect(paginator.elements).toEqual([
             { text: "<<", enabled: false, target: 1 },
             { text: "<", enabled: false, target: undefined },
-            { text: "1", enabled: true, active: true, target: 1},
-            { text: "2", enabled: true, active: false, target: 2},
-            { text: "3", enabled: true, active: false, target: 3},
-            { text: "4", enabled: true, active: false, target: 4},
-            { text: "5", enabled: true, active: false, target: 5},
+            { text: "1", enabled: true, active: true, target: 1 },
+            { text: "2", enabled: true, active: false, target: 2 },
+            { text: "3", enabled: true, active: false, target: 3 },
+            { text: "4", enabled: true, active: false, target: 4 },
+            { text: "5", enabled: true, active: false, target: 5 },
             { text: ">", enabled: true, target: 2 },
-            { text: ">>", enabled: true, target: 10}
+            { text: ">>", enabled: true, target: 10 }
         ])
         console.log(paginator.buildTo(9).offset)
         expect(paginator.buildTo(9).elements).toEqual([
             { text: "<<", enabled: true, target: 1 },
             { text: "<", enabled: true, target: 8 },
-            { text: "6", enabled: true, active: false, target: 6},
-            { text: "7", enabled: true, active: false, target: 7},
-            { text: "8", enabled: true, active: false, target: 8},
-            { text: "9", enabled: true, active: true, target: 9},
-            { text: "10", enabled: true, active: false, target: 10},
-            { text: ">", enabled: true , target: 10},
+            { text: "6", enabled: true, active: false, target: 6 },
+            { text: "7", enabled: true, active: false, target: 7 },
+            { text: "8", enabled: true, active: false, target: 8 },
+            { text: "9", enabled: true, active: true, target: 9 },
+            { text: "10", enabled: true, active: false, target: 10 },
+            { text: ">", enabled: true, target: 10 },
             { text: ">>", enabled: false, target: 10 }
         ])
     })
 
     it("paginator has prev page when the page is the page two", () => {
-        expect(new EasyPaginator({offset: 10, limit: 10, count: 30}).prevPage).toBe(1)
+        expect(new EasyPaginator({ offset: 10, limit: 10, count: 30 }).prevPage).toBe(1)
     })
 
     it("Paginator show the last page in the next when only one page is missing", () => {
-        expect(new EasyPaginator({offset: 10, limit: 10, count: 30}).nextPage).toBe(3)
+        expect(new EasyPaginator({ offset: 10, limit: 10, count: 30 }).nextPage).toBe(3)
+    })
+
+    it("With count returns an instance of Easy paginator", () => {
+        expect(new EasyPaginator({
+            offset: 10,
+            limit: 10,
+            count: 30
+        }).withCount(50)).toBeInstanceOf(EasyPaginator)
+    })
+
+    it("With count returns a different instance of paginator", () => {
+        const paginator = new EasyPaginator({
+            offset: 10,
+            limit: 10,
+            count: 30
+        })
+        expect(paginator.withCount(50)).not.toBe(paginator)
+    })
+
+    it("With count return the same page and right number of pages", () => {
+        const paginator = new EasyPaginator({
+            offset: 10,
+            limit: 10,
+            count: 30
+        })
+        expect(paginator.lastPage).toBe(3)
+        const largerPaginator = paginator.withCount(50)
+        expect(largerPaginator.lastPage).toBe(5)
+    })
+
+    it("With count return instance with the same page in case if right", () => {
+        const paginator = new EasyPaginator({
+            offset: 30,
+            limit: 10,
+            count: 50
+        })
+        const largerPaginator = paginator.withCount(90)
+        expect(paginator.page).toBe(largerPaginator.page)
+    })
+
+    it("With count return instance with modified page if previous its incorrect with the new count", () => {
+        const paginator = new EasyPaginator({
+            offset: 50,
+            limit: 10,
+            count: 60
+        })
+        const largerPaginator = paginator.withCount(40)
+        expect(largerPaginator.page).not.toBe(paginator.page)
+        expect(largerPaginator.page).toBe(4)
     })
 
 })

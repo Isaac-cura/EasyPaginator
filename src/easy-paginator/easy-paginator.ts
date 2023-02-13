@@ -64,6 +64,13 @@ export class EasyPaginator {
         return Math.min(this.lastPage, this.page + this.floorHalfSegmentLength - leftLimitOffset)
     }
 
+    withCount(count: number) {
+        return new EasyPaginator({
+            ...this.dataSource,
+            count
+        });
+    }
+
     private setElements() {
         this.elements.push({
             text: "<<",
