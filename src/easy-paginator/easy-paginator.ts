@@ -71,6 +71,10 @@ export class EasyPaginator {
         return Math.min(this.lastPage, this.page + this.floorHalfSegmentLength - leftLimitOffset)
     }
 
+    get segmentLength() {
+        return this._segmentLength;
+    }
+
     private setElements() {
         this.elements.push({
             text: "<<",
