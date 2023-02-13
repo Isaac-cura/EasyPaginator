@@ -50,7 +50,7 @@ export class EasyPaginator {
 
     get prevPage() {
         const possiblePrev = this.page - 1;
-        return possiblePrev > 1
+        return possiblePrev >= 1
             ? possiblePrev
             : undefined
     }
