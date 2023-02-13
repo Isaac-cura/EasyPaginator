@@ -4,5 +4,6 @@
     "target": "es2015",
     "outDir": "./dist",
     "rootDir": "./src",
+    "declaration": true
   }
 }
